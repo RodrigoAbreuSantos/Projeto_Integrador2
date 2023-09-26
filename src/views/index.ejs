@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Barbearia</title>
+    <%- include('./css/styles'); %>
+    <%- include('./javascript/gerarCartao'); %>
+
+
+
+</head>
+<body>
+  <header class="header-cartao">
+    <div class="caixa">
+        <h1>Sistema De Compras de Produtos e Serviços</h1>
+
+        <nav>
+            <ul>
+                <li><a href="/gerarCard" class="irCartao">Gerar Cartão</a></li>
+                <li><a href="/produtos" class="irProdutos">Produtos</a></li>
+                <li><a href="/relatorio">Relatorio</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+    <div class="resultado"></div>
+
+
+
+
+</body>
+</html>

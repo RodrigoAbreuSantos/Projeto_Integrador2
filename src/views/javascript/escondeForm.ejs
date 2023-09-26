@@ -1,0 +1,12 @@
+<script>
+  const form = document.querySelector('.formulario2');
+
+  document.addEventListener('click', evento => {
+  const elemento = evento.target
+  const tag = elemento.tagName.toLowerCase();
+
+  if (tag === 'input'){
+    form.removeAttribute("hidden");
+  }
+  })
+</script>

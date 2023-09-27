@@ -1,12 +1,12 @@
 import { Router } from "express";
-import homeController from "../controllers/HomeController";
+import produtosController from "../controllers/ProdutosController";
 const router = new Router();
 
+//Rota de Produtos e Serviços
+router.get('/', produtosController.produtos, produtosController.mostraUsuario);
 
+router.post('/', produtosController.verificaUsarioExiste);
 
-//Rota Inicial
-router.get('/', homeController.index) //ele esta jogando as funções do controller diretamente aqui, elas que recebem a requisição do usario e enciam uma resposta, dependendo do metodo, se for get pega a requisição do usuario se for post manda uma resposta
-router.post('/', homeController.teste)
 
 export default router; //aqui que vai ficar as rotas
 

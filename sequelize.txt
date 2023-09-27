@@ -1,0 +1,50 @@
+INSTALANDO O SEQUELIZE E O MARIADB ==>
+npm i sequelize mariadb
+
+
+INSTALANDO O SEQUELIZE COMO DEV DEPENDECE ==>
+npm i -D sequelize-cli
+
+
+CRIA UMA PASTA MIGRATIONS QUE POR ELA VC PODE CRIAR AS TABELAS COM OS CAMPOS ==>
+npx sequelize-cli migration:generate --name migration-skeleton
+
+
+
+ESTAMOS CRIANDO UMA TABELA COM OS CAMPOS NO BANCO DE DADOS, QUE ESTÃO DENTRO DO ARQUIVO DA PASTA MIGRATIONS ==>
+npx sequelize db:migrate
+
+
+PARA APAGAR A TABELA QUE FOI CRIADA NO WORKBENCH COM O COMANDO ANTERIOR, USA-SE ==>
+npx sequelize db:migrate:undo
+
+
+PARA REFAZER A TABELA É SO FAZER DNV O COMANDO ==>
+npx sequelize db:migrate
+
+
+PARA FAZER UMA CRIPTOGRAFIA DA SENHA ==>
+npm i bcryptjs
+
+
+PARA INSTALAR UM TOKEN ==>
+npm i jsonwebtoken
+
+
+ESTA CRIANDO UMA PASTA SEED COM UM ARQUIVO DENTRO ONDE VC PODE MANDAR PARA O BANCO DADOS OS DADOS DESSE ARQUIVO COM BASE NA TABELA QUE VC CRIOU NO SEQUELIZE ==>
+npx sequelize seed:generate --name criar-usuarios
+
+
+ESTAMOS MANDANDO PARA O BANCO DE DADOS OS DADOS DO ARQUIVO DA PASTA SEED ==>
+npx sequelize db:seed:all
+
+
+
+
+
+
+
+
+//
+
+

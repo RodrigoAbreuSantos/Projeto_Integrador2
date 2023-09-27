@@ -2,7 +2,9 @@ import express from 'express';
 import homeRoutes from './src/routes/homeRoutes.js'; //feito isso podemos falar pro app usar as rotas
 import dotenv from 'dotenv';
 import './src/database';
-import userRouter from './src/routes/userRoutes.js'; //feito isso podemos falar pro app usar as rotas
+import userRoutes from './src/routes/userRoutes.js'; //feito isso podemos falar pro app usar as rotas
+import cartaoRoutes from './src/routes/cartaoRoutes.js'
+import produtosRoutes from './src/routes/produtosRoutes.js'
 
 dotenv.config();
 
@@ -21,7 +23,9 @@ class App {
 
   routes(){
     this.app.use('/', homeRoutes);
-    this.app.use('/users', userRouter);
+    this.app.use('/gerarCard', cartaoRoutes);
+    this.app.use('/produtos', produtosRoutes);
+    this.app.use('/users', userRoutes);
   }
 }
 

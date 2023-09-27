@@ -14,6 +14,14 @@
 <body>
   <header class="header-cartao">
     <div class="caixa">
+
+      <% if (mostraUsuario) { %>
+        <p>Bem-vindo</p>
+      <% } else { %>
+        <p>Faça login para ver o conteúdo.</p>
+      <% } %>
+
+
         <h1>Sistema De Compras de Produtos e Serviços</h1>
 
         <nav>

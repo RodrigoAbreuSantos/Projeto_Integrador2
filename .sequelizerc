@@ -1,0 +1,11 @@
+const { resolve } = require('path') //para resolver caminhos
+
+module.exports = {
+  config: resolve(__dirname, 'src', 'config', 'database.js'), //caminho do arquivo de configuração, esse arquivo vai ficar no __dirname que é a pasta raiz, dentro de src dentro de config e ele vai ser chamado de database.js
+  'models-path': resolve(__dirname, 'src', 'models'), //o caminho dos modulos, então vai pegar o caminho dentro de src dentro de models
+  'migrations-path': resolve(__dirname, 'src', 'database', 'migrations'), //caminho de alterações na base de dados, vai estar dentro de src dentro de database dentro da pasta migrations. Se vc cria uma tabela isso é conseiderado uma migração, essas migrations criam historicos na nossa base de dados
+  'seeders-path': resolve(__dirname, 'src', 'database', 'seeds')
+
+  //estes 2 ultimos ele vai criar sozinho dentro de src dentro de database a pasta migrations e a pasta seeds
+}
+;

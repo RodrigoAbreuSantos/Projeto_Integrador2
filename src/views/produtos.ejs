@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Barbearia</title>
+    <%- include('./css/styles'); %>
+    <%- include('./javascript/fetch'); %>
+    <%- include('./javascript/gerarCartao'); %>
+
+
+
+</head>
+<body>
+  <header class="header-cartao">
+    <div class="caixa">
+
+
+
+        <h1>Sistema De Compras de Produtos e Serviços</h1>
+
+        <nav>
+            <ul>
+                <li><a href="/gerarCard" class="irCartao">Gerar Cartão</a></li>
+                <li><a href="/produtos" class="irProdutos">Produtos</a></li>
+                <li><a href="/relatorio">Relatorio</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+  <div>
+    <form class="formulario" method="post">
+      <label for="cartao">Digite o numero do Cartão</label>
+      <input type="number" id="cartao" name="cartao" class="cartao">
+      <button>Gerar Cartão</button>
+  </form>
+  </div>
+  <br>
+
+  <% if (typeof error !== 'undefined' && error !== '') { %>
+    <p><%= error %></p>
+  <% } %>
+
+  <% if (typeof hit !== 'undefined' && hit !== '') { %>
+    <p><%= hit %></p>
+    <form action="/" class="formulario2" method="post">
+      <fieldset>
+        <legend>Escolha seus Produtos:</legend>
+
+
+        <div>
+          <input type="checkbox" id="cabelo" name="campo[]"/>
+          <label for="cabelo">Cabelo</label>
+        </div>
+
+        <div>
+          <input type="checkbox" id="barba" name="campo[]"/>
+          <label for="barba">Barba</label>
+        </div>
+
+        <div>
+          <input type="checkbox" id="sobrancelha" name="campo[]"/>
+          <label for="sobrancelha">Sobrancelha</label>
+        </div>
+
+        <div>
+          <input type="checkbox" id="limpeza" name="campo[]"/>
+          <label for="limpeza">Limpeza</label>
+        </div>
+
+        <div>
+          <input type="checkbox" id="nevou" name="campo[]"/>
+          <label for="nevou">Nevou</label>
+        </div>
+
+        <div>
+          <input type="checkbox" id="depilacao" name="campo[]"/>
+          <label for="depilacao">Depilação</label>
+        </div>
+      </fieldset>
+
+
+      <fieldset>
+        <legend>Escolha seus Serviços:</legend>
+
+        <div>
+          <input type="checkbox" id="cabelo_barba" name="campo[]"/>
+          <label for="cabelo_barba">Cabelo + Barba</label>
+        </div>
+
+        <div>
+          <input type="checkbox" id="corte_completo" name="campo[]"/>
+          <label for="corte_completo">Corte Completo</label>
+        </div>
+
+        <div>
+          <input type="checkbox" id="pacote_mensal" name="campo[]"/>
+          <label for="pacote_mensal">Pacote Mensal</label>
+        </div>
+
+      </fieldset>
+    </form>
+  <% } %>
+
+
+
+
+        <%- include('./javascript/escondeForm'); %>
+
+
+
+
+</body>
+</html>

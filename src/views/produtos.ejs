@@ -44,38 +44,38 @@
 
   <% if (typeof hit !== 'undefined' && hit !== '') { %>
     <p><%= hit %></p>
-    <form action="/" class="formulario2" method="post">
+    <form class="formulario2" method="post" action="/produtos/comprar">
       <fieldset>
         <legend>Escolha seus Produtos:</legend>
 
 
         <div>
-          <input type="checkbox" id="cabelo" name="campo[]"/>
+          <input type="checkbox" id="cabelo"name="produtos[]" value="cabelo"/>
           <label for="cabelo">Cabelo</label>
         </div>
 
         <div>
-          <input type="checkbox" id="barba" name="campo[]"/>
+          <input type="checkbox" id="barba" name="produtos[]" value="barba"/>
           <label for="barba">Barba</label>
         </div>
 
         <div>
-          <input type="checkbox" id="sobrancelha" name="campo[]"/>
+          <input type="checkbox" id="sobrancelha" name="produtos[]" value="sobrancelha"/>
           <label for="sobrancelha">Sobrancelha</label>
         </div>
 
         <div>
-          <input type="checkbox" id="limpeza" name="campo[]"/>
+          <input type="checkbox" id="limpeza" name="produtos[]" value="limpeza"/>
           <label for="limpeza">Limpeza</label>
         </div>
 
         <div>
-          <input type="checkbox" id="nevou" name="campo[]"/>
+          <input type="checkbox" id="nevou" name="produtos[]" value="nevou"/>
           <label for="nevou">Nevou</label>
         </div>
 
         <div>
-          <input type="checkbox" id="depilacao" name="campo[]"/>
+          <input type="checkbox" id="depilacao" name="produtos[]" value="depilacao"/>
           <label for="depilacao">Depilação</label>
         </div>
       </fieldset>
@@ -85,21 +85,22 @@
         <legend>Escolha seus Serviços:</legend>
 
         <div>
-          <input type="checkbox" id="cabelo_barba" name="campo[]"/>
-          <label for="cabelo_barba">Cabelo + Barba</label>
+          <input type="checkbox" id="cabeloBarba" name="produtos[]" value="cabeloBarba"/>
+          <label for="cabeloBarba">Cabelo + Barba</label>
         </div>
 
         <div>
-          <input type="checkbox" id="corte_completo" name="campo[]"/>
-          <label for="corte_completo">Corte Completo</label>
+          <input type="checkbox" id="corteCompleto" name="produtos[]" value="corteCompleto"/>
+          <label for="corteCompleto">Corte Completo</label>
         </div>
 
         <div>
-          <input type="checkbox" id="pacote_mensal" name="campo[]"/>
-          <label for="pacote_mensal">Pacote Mensal</label>
+          <input type="checkbox" id="pacoteMensal" name="produtos[]" value="pacoteMensal"/>
+          <label for="pacoteMensal">Pacote Mensal</label>
         </div>
 
       </fieldset>
+      <button>Comprar</button>
     </form>
   <% } %>
 

@@ -1,7 +1,17 @@
-import Cliente from '../models/Cliente'
+import Cliente from '../models/Cliente';
+import Produto from '../models/Produto';
 
 class UserController {
 
+  async criarProduto(req, res){
+    try{
+      const novoUser = await Produto.create(req.body);//estamos criando os dados dos campos
+      return res.json(novoUser);
+  }catch(erro){
+    return res.status(400).json(erro);
+  }
+
+    }
   //Criar Campos
   async store(req, res){
     try{

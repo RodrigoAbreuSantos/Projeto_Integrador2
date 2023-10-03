@@ -5,16 +5,26 @@ import './src/database';
 import userRoutes from './src/routes/userRoutes.js'; //feito isso podemos falar pro app usar as rotas
 import cartaoRoutes from './src/routes/cartaoRoutes.js'
 import produtosRoutes from './src/routes/produtosRoutes.js'
+const session = require('express-session')
 
 dotenv.config();
 
 class App {
   constructor() { //sempre que instanciar a classe o contructor vai ser executado
     this.app = express(); //atributo app recebe o express
+    this.salvarSessao();
     this.middlewares(); //o metodo middleware vai ser chamado
     this.routes();
-
   }
+  salvarSessao(){
+    this.app.use(session({
+      secret: 'seu_segredo', // Deve ser um segredo seguro e não deve ser compartilhado publicamente
+      resave: false,          // Evita que a sessão seja salva a cada solicitação
+      saveUninitialized: true // Salva uma sessão mesmo se ela ainda não foi inicializada
+    }));
+  }
+
+
 
   middlewares(){
     this.app.use(express.urlencoded({ extended: true }));

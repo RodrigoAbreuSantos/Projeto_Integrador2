@@ -6,6 +6,7 @@ const router2 = new Router();
 
 //Rota de Criação de usuarios no banco de dados
 router2.post('/', UserController.store);
+router2.post('/teste', UserController.criarProduto);
 
 router2.get('/', UserController.index);
 

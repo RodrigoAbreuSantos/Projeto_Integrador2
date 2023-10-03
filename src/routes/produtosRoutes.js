@@ -7,7 +7,8 @@ const router = express.Router();
 router.get('/', produtosController.produtos);
 
 // Rota para processar a seleção de produtos após verificar o cartão
-router.post('/', produtosController.verificaUsarioExiste);
+router.post('/', produtosController.verificaUsarioExiste, produtosController.fazerCompra);
+router.post('/comprar', produtosController.processarCompra)
 
 export default router;
 

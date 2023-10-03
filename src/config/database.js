@@ -11,8 +11,8 @@ module.exports = {
     timestamps: true,
     underscored: true,
     underscoredAll: true, //se vc tem 'nomeAluno' ele te entrega nome_aluno
-    'createdAt': 'created_at', //vai falar quando o registro foi criado na tabela
-    'updatedAt': 'updated_at' //vai falar quando o registro foi atualizado na tabela
+    createdAt: 'created_at', //vai falar quando o registro foi criado na tabela
+    updatedAt: 'updated_at' //vai falar quando o registro foi atualizado na tabela
   },
   dialectOptions: {
     timezone: 'America/Sao_Paulo'

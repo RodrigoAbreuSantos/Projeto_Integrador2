@@ -13,11 +13,11 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      descricao: {
-        type: Sequelize.STRING,
+      produtos: {
+        type: Sequelize.JSON,
         allowNull: true,
       },
-      clienteId: {
+      cliente_id: {
         type: Sequelize.INTEGER, // Isso será a chave estrangeira
         allowNull: false,
         references: {
@@ -27,11 +27,11 @@ module.exports = {
         onDelete: 'CASCADE', //se vc deletar um cliente o produto tambem vai ser deletado
         onUpdate: 'CASCADE', //se vc atualizar o id do cliente por algum motivo, vai ser atualizado aqui tambem, para que não perca referencia
       },
-      createdAt: {
+      created_at: {
         type: Sequelize.DATE,
         allowNull: false,
       },
-      updatedAt: {
+      updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
       },

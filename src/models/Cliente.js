@@ -11,7 +11,6 @@ import Sequelize, { Model } from "sequelize";
 export default class Cliente extends Model { //esta fazendo a classe Aluno ser uma extensão da classe Model
   static init(sequelize) { //conexão do modulo, ele é a connection que estamos enviando para o index.js
     super.init({
-      nome: Sequelize.STRING,
       cartao: Sequelize.INTEGER
     },
     {

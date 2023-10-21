@@ -1,11 +1,10 @@
 <script>
-  function clickCartao(){
+  async function clickCartao(){
 
-  let gerar = Math.floor(Math.random() *9999) + 1000;
+    let gerar = Math.floor(Math.random() *9999) + 1000;
 
-  console.log(gerar);
+    return alert(`O seu cartão de acesso é: ${gerar}`);
 
-  return alert(`O seu cartão de acesso é: ${gerar}`);
   }
 
 </script>

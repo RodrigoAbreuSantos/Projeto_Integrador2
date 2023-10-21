@@ -3,7 +3,12 @@ import Cliente from '../models/Cliente'
 class HomeController {
 
   //METODO QUE LEVA PARA A ROTA INICAL
-  index(req, res){ //aqui que vai ficar a requisição e a resposta
+  inicio(req, res){ //aqui que vai ficar a requisição e a resposta
+    res.render('inicio');
+
+  }
+
+  index(req, res, next){ //aqui que vai ficar a requisição e a resposta
     res.render('index');
   }
 

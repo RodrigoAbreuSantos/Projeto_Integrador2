@@ -4,10 +4,9 @@ import Produto from '../models/Produto'
 class ProdutosController {
 
   //METODO QUE LEVA PARA A ROTA PRODUTOS
-  produtos(req, res){
-    return res.render('produtos', { user: req.user || {} });
+  relatorio(req, res){
+    return res.render('relatorio');
   }
-
 
   async verificaUsarioExiste(req, res, next){ //nesse rota queremos receber dados e checar se o usuario existe na base de dados
     try{
@@ -21,7 +20,7 @@ class ProdutosController {
 
       if (!user){ //se não achar o user vai mostrar esse resposta
         console.log('Cartão Invalido')
-        return res.render('produtos', { error: 'Cartão Inválido, tente novamente' });
+        return res.render('relatorio', { error: 'Cartão Inválido, tente novamente' });
         //res.redirect('back')
       }
 
@@ -37,23 +36,26 @@ class ProdutosController {
 
       next()
 
-      return res.render('produtos', { hit: 'Usuario Logado com Sucesso' });
+      return res.render('relatorio', { hit: 'Usuario Logado com Sucesso' });
 
 
     }catch(erro){
-      return res.render('produtos', { error: 'Erro ao verificar usuário' });
+      return res.render('relatorio', { error: 'Erro ao verificar usuário' });
     }
 
   }
 
-  async fazerCompra(req, res, next) {
+  async mostrarRelatorio(req, res, next) {
     try {
       if (req.session.userId) {
          // Obtenha os produtos selecionados do corpo da requisição
         const id = req.session.userId
         // Exibe os produtos selecionados e o ID do usuário no console (apenas para fins de depuração)
+     
 
-        console.log('Req Body: ', req.body, 'Req Produtos:', req.session.Produto, 'Req Id:', req.session.userId)
+        console.log('Req Body: ', req.body, 'Req Id:', req.session.userId)
+
+
 
         /*const user = await Produto.create({
           "produtos": ["barba", "sobrancelha", "limpeza"],
@@ -65,34 +67,17 @@ class ProdutosController {
 
 
 
-        return res.render('produtos', req.session.Produto, id);
+
       } else {
         throw new Error('Número do cartão não encontrado na sessão.');
       }
     } catch (erro) {
       console.error('Erro em processarCompra:', erro);
-      return res.render('produtos', { error: erro.message });
+      return res.render('relatorio', { error: erro.message });
     }
 
   }
-
-  async processarCompra(req, res){
-    const produto = req.body.produtos
-    const  id  =  req.session.userId
-
-    const db = {
-      "produtos": produto,
-      "cliente_id": id
-    }
-
-    const user = await Produto.create(db);
-    console.log(user);
-    return res.render('index');
-  }
-
 }
-
-
 
 export default new ProdutosController();
 

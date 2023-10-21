@@ -4,17 +4,11 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-
+  up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('clientes', {
-      id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-      },
       cartao: {
         type: Sequelize.INTEGER,
+        primaryKey: true, // Defina o campo 'cartao' como chave primária
         allowNull: false,
       },
       created_at: { //não precisamos enviar os dados desse campo porque o sequelize faz isso automaticamente, mas precisamos na migração criar esses campos
@@ -24,9 +18,8 @@ module.exports = {
       updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
-      }
+      },
     });
-
   },
 
   async down (queryInterface) {

@@ -11,7 +11,10 @@ import Sequelize, { Model } from "sequelize";
 export default class Cliente extends Model { //esta fazendo a classe Aluno ser uma extensão da classe Model
   static init(sequelize) { //conexão do modulo, ele é a connection que estamos enviando para o index.js
     super.init({
-      cartao: Sequelize.INTEGER
+      cartao: {
+        type: Sequelize.INTEGER,
+        primaryKey: true
+      }
     },
     {
       sequelize, //esta passando como parametro para o index.js dentro da pasta database a conexão com o banco de dados, e la no index vamos configurar a base de dados que estamos passando como parametro
@@ -20,7 +23,7 @@ export default class Cliente extends Model { //esta fazendo a classe Aluno ser u
   }
 
   static associate(models){//o parametro vai ser o model
-    this.hasMany(models.Produto, { foreignKey: 'cliente_id' }); // Defina a chave estrangeira que se refere ao ID do usuário //o this vai ser esse model, quer dizer que ele pertence ao model aluno e a chave estrangeira é aluno_id. Ou seja essa chave é uma referencia para a chave de outro modulo.
+    this.hasMany(models.Produto, { foreignKey: 'cliente_cartao' }); // Defina a chave estrangeira que se refere ao ID do usuário //o this vai ser esse model, quer dizer que ele pertence ao model aluno e a chave estrangeira é aluno_id. Ou seja essa chave é uma referencia para a chave de outro modulo.
     //VC TAMBEM PODERIA COLOCAR NO MODEL ALUNO QUE ELE PODE TER UMA OU MUITAS FOTOS. EX:
     //this.hasMany(models.Produto, {foreignKey: 'clienteId'} )
 

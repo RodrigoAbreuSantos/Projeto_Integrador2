@@ -3,9 +3,10 @@ import homeRoutes from './src/routes/homeRoutes.js'; //feito isso podemos falar 
 import dotenv from 'dotenv';
 import './src/database';
 import userRoutes from './src/routes/userRoutes.js'; //feito isso podemos falar pro app usar as rotas
-import cartaoRoutes from './src/routes/cartaoRoutes.js' 
+import cartaoRoutes from './src/routes/cartaoRoutes.js'
 import produtosRoutes from './src/routes/produtosRoutes.js'
 import relatorioRoutes from './src/routes/relatorioRoutes.js'
+import prestadorRoutes from './src/routes/prestadorRoutes.js'
 const session = require('express-session')
 
 dotenv.config();
@@ -37,6 +38,7 @@ class App {
     this.app.use('/gerarCard', cartaoRoutes);
     this.app.use('/produtos', produtosRoutes);
     this.app.use('/relatorio', relatorioRoutes);
+    this.app.use('/prestador', prestadorRoutes);
     this.app.use('/users', userRoutes);
   }
 }

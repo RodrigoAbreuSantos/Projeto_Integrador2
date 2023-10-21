@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Barbearia</title>
+    <%- include('./css/styles'); %>
+    <%- include('./javascript/fetch'); %>
+    <%- include('./javascript/gerarCartao'); %>
+
+
+
+</head>
+<body>
+  <header class="header-cartao">
+    <div class="caixa">
+
+
+
+        <h1>Utilização e Recompensas</h1>
+
+        <br>
+
+
+</header>
+
+
+<hr class="hr">
+  <div class="divProdutoCard">
+    <form class="formulario" method="post">
+      <label for="cartao">Digite o numero do Cartão:</label>
+      <input type="number" id="cartao" name="cartao" class="cartaoProduto">
+      <button class="cartaoProduto">Validar Cartão</button>
+  </form>
+  </div>
+  <br>
+
+  <% if (typeof error !== 'undefined' && error !== '') { %>
+    <p><%= error %></p>
+  <% } %>
+
+  <% if (typeof hit !== 'undefined' && hit !== '') { %>
+    <p><%= hit %></p>
+    <h2 style="text-align: center;">Produtos com valores:</h2>
+    <form class="formulario2" method="post" action="/prestador/utilizacao">
+    <ul>
+      <% const produtosUnicos = {}; %>
+      <% produtos.forEach(produto => { %>
+          <% if (produto.cabelo && !produtosUnicos['cabelo']) { %>
+            <div>
+              <input type="checkbox" id="cabelo"name="cabelo" value="cabelo"/>
+              <label for="cabelo">Cabelo</label>
+            </div>
+              <% produtosUnicos['cabelo'] = true; %>
+          <% } %>
+
+          <% if (produto.barba && !produtosUnicos['barba']) { %>
+            <div>
+              <input type="checkbox" id="barba" name="barba" value="barba"/>
+              <label for="barba">Barba</label>
+            </div>
+              <% produtosUnicos['barba'] = true; %>
+          <% } %>
+
+          <% if (produto.sobrancelha && !produtosUnicos['sobrancelha']) { %>
+            <div>
+              <input type="checkbox" id="sobrancelha" name="sobrancelha" value="sobrancelha"/>
+              <label for="sobrancelha">Sobrancelha</label>
+            </div>
+              <% produtosUnicos['sobrancelha'] = true; %>
+          <% } %>
+
+          <% if (produto.limpeza && !produtosUnicos['limpeza']) { %>
+            <div>
+              <input type="checkbox" id="limpeza" name="limpeza" value="limpeza"/>
+              <label for="limpeza">Limpeza</label>
+            </div>
+              <% produtosUnicos['sobrancelha'] = true; %>
+          <% } %>
+
+          <% if (produto.nevou && !produtosUnicos['nevou']) { %>
+            <div>
+              <input type="checkbox" id="nevou" name="nevou" value="nevou"/>
+              <label for="nevou">Nevou</label>
+            </div>
+              <% produtosUnicos['nevou'] = true; %>
+          <% } %>
+
+          <% if (produto.depilacao && !produtosUnicos['depilacao']) { %>
+            <div>
+              <input type="checkbox" id="depilacao" name="depilacao" value="depilacao"/>
+              <label for="depilacao">Depilação</label>
+            </div>
+              <% produtosUnicos['depilacao'] = true; %>
+          <% } %>
+      <% }); %>
+
+      <!--Neste código, criamos um objeto produtosUnicos para rastrear os produtos que já foram adicionados à lista. Em seguida, verificamos se cada produto é diferente de null e se ainda não foi adicionado à lista única. Se for verdade, adicionamos o nome do produto à lista e atualizamos o objeto produtosUnicos. Isso garantirá que apenas produtos únicos sejam exibidos na lista, sem repetições.-->
+  </ul>
+
+  <br>
+
+  <button>Realizar Compras</button>
+
+</form>
+
+
+
+  <% } %>
+
+
+
+
+        <%- include('./javascript/escondeForm'); %>
+
+
+
+
+</body>
+</html>

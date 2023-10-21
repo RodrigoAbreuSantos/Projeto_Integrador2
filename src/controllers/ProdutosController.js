@@ -33,7 +33,7 @@ class ProdutosController {
 
       // Após a validação do usuário
 
-      req.session.userId = user.id; // Supondo que 'id' seja o ID do usuário
+      req.session.userCartao = user.cartao; // Supondo que 'id' seja o ID do usuário
 
       next()
 
@@ -48,12 +48,12 @@ class ProdutosController {
 
   async fazerCompra(req, res, next) {
     try {
-      if (req.session.userId) {
+      if (req.session.userCartao) {
          // Obtenha os produtos selecionados do corpo da requisição
-        const id = req.session.userId
+        const cartao = req.session.userCartao
         // Exibe os produtos selecionados e o ID do usuário no console (apenas para fins de depuração)
 
-        console.log('Req Body: ', req.body, 'Req Produtos:', req.session.Produto, 'Req Id:', req.session.userId)
+        console.log('Req Body: ', req.body, 'Req Produtos:', req.session.Produto, 'Req Id:', req.session.userCartao)
 
         /*const user = await Produto.create({
           "produtos": ["barba", "sobrancelha", "limpeza"],
@@ -65,7 +65,7 @@ class ProdutosController {
 
 
 
-        return res.render('produtos', req.session.Produto, id);
+        return res.render('produtos', req.session.Produto, cartao);
       } else {
         throw new Error('Número do cartão não encontrado na sessão.');
       }
@@ -77,16 +77,24 @@ class ProdutosController {
   }
 
   async processarCompra(req, res){
-    const produto = req.body.produtos
-    const  id  =  req.session.userId
+    const  cartao  =  req.session.userCartao
 
     const db = {
-      "produtos": produto,
-      "cliente_id": id
+      "cabelo": req.body.cabelo,
+      "barba": req.body.barba,
+      "sobrancelha": req.body.sobrancelha,
+      "limpeza": req.body.limpeza,
+      "nevou": req.body.nevou,
+      "depilacao": req.body.depilacao,
+      "cliente_cartao": cartao
     }
 
     const user = await Produto.create(db);
-    console.log(user);
+
+    console.log('--------------------------------------------------------')
+    console.log(db);
+    console.log('--------------------------------------------------------')
+    console.log(user)
     return res.render('index');
   }
 

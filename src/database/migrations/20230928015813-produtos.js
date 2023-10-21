@@ -13,16 +13,36 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      produtos: {
-        type: Sequelize.JSON,
+      cabelo: {
+        type: Sequelize.STRING,
         allowNull: true,
       },
-      cliente_id: {
+      barba: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      sobrancelha: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      limpeza: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      nevou: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      depilacao: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      cliente_cartao: {
         type: Sequelize.INTEGER, // Isso será a chave estrangeira
         allowNull: false,
         references: {
           model: 'clientes', // Nome da tabela de referência
-          key: 'id', // Nome da coluna de referência
+          key: 'cartao', // Nome da coluna de referência
         },
         onDelete: 'CASCADE', //se vc deletar um cliente o produto tambem vai ser deletado
         onUpdate: 'CASCADE', //se vc atualizar o id do cliente por algum motivo, vai ser atualizado aqui tambem, para que não perca referencia

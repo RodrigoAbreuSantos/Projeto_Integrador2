@@ -1,6 +1,8 @@
 import Cliente from '../models/Cliente'
 import Produto from '../models/Produto'
 import Servicos from '../models/Servicos';
+const { Op } = require('sequelize');
+
 
 class PrestadorController {
 
@@ -12,8 +14,10 @@ class PrestadorController {
   async verificaUsarioExiste(req, res){ //nesse rota queremos receber dados e checar se o usuario existe na base de dados
     try{
       const numeroDoCartaoNoReq = req.body.cartao;
+      req.session.numeroDoCartao = numeroDoCartaoNoReq;
 
       const user = await Produto.findOne({ where: { cliente_cartao: numeroDoCartaoNoReq } })
+
 
       //nome e cartao que o usuario esta enviando, é o que vem do form
 
@@ -24,6 +28,7 @@ class PrestadorController {
         return res.render('produtos', { error: 'Cartão Inválido, tente novamente' });
         //res.redirect('back')
       }
+
 
       const servicos = await Produto.findAll({
         attributes: ['id', 'created_at', 'updated_at'],
@@ -54,18 +59,77 @@ class PrestadorController {
       return res.render('prestador', { error: 'Erro ao verificar usuário' });
     }
 
-    }catch(erro){
-      return res.render('prestador', { error: 'Erro ao verificar usuário' });
     }
 
-    utilizarServicos(req, res){
-      const totalServico = Object.keys(req.body).length
-      if (totalServico > 2){
-        
+    async utilizarServicos(req, res) {
+      try {
+        const totalServico = Object.keys(req.body).length;
+        const numeroDoCartaoNoReq = req.session.numeroDoCartao;
+        const bodyString = req.body
+        const novoObjeto = {
+          desc: req.body,
+        };
+
+        const atual = [
+          {desc: novoObjeto.desc.cabelo},
+          {desc: novoObjeto.desc.barba},
+          {desc: novoObjeto.desc.sobrancelha},
+          {desc: novoObjeto.desc.limpeza},
+          {desc: novoObjeto.desc.nevou},
+          {desc: novoObjeto.desc.depilacao}
+        ]
+
+
+        //console.log(numeroDoCartaoNoReq);
+        //console.log(novoObjeto);
+        //console.log(novoObjeto.desc);
+        //console.log(novoObjeto.desc.cabelo);
+        //console.log(atual)
+
+        // Filtrar para remover itens undefined
+        const descricoesValidas = atual.filter(item => item.desc !== undefined);
+        console.log(descricoesValidas)
+
+        console.log(Object.keys(req.body).length);
+
+
+
+        const servicos = await Servicos.findAll({
+          where: {
+            [Op.or]: descricoesValidas
+          },
+          attributes: ['id', 'desc'] // Remova 'created_at' e 'updated_at'
+        });
+
+        //Esta retornado os id da variavel serviços
+        const servicosId = servicos.map((item) => item.id);
+        console.log(servicosId)
+
+
+        const servicoProduto = await Produto.findAll({ where:
+          {
+          cliente_cartao: numeroDoCartaoNoReq,
+          cod_servico: servicosId
+        }
+      })
+
+        console.log(servicoProduto)
+
+        //const updateProdutos = await Produto.update()
+
+        //produto.forEach((campo) => console.log(campo.cod_servico) )
+
+
+
+
+        //console.log(servicos)
+        //const servico = await Servicos.findAll({ where: { desc: req.body } })
+
+        return res.render('index');
+      } catch (erro) {
+        console.error(erro);
+        return res.render('prestador', { error: 'Erro ao utilizar serviços' });
       }
-      console.log(req.body)
-      console.log(Object.keys(req.body).length)
-      return res.render('index');
     }
 
 

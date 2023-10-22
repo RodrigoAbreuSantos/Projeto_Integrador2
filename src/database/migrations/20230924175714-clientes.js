@@ -2,13 +2,12 @@
 
 //AQUI CRIAMOS NOSSA MIGRAÇÃO, migrations é alterações na base de dados, então vamos mexer diretamente na base de dados
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('clientes', {
-      cartao: {
+      cartao: {// Defina o campo 'cartao' como chave primária
         type: Sequelize.INTEGER,
-        primaryKey: true, // Defina o campo 'cartao' como chave primária
+        primaryKey: true,
         allowNull: false,
       },
       created_at: { //não precisamos enviar os dados desse campo porque o sequelize faz isso automaticamente, mas precisamos na migração criar esses campos
@@ -22,9 +21,8 @@ module.exports = {
     });
   },
 
-  async down (queryInterface) {
-
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('clientes');
-
-  }
+  },
 };
+

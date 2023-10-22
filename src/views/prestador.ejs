@@ -41,61 +41,54 @@
 
   <% if (typeof hit !== 'undefined' && hit !== '') { %>
     <p><%= hit %></p>
-    <h2 style="text-align: center;">Produtos com valores:</h2>
+    <h2 style="text-align: center;">Serviços associados:</h2>
     <form class="formulario2" method="post" action="/prestador/utilizacao">
+      <br><br>
     <ul>
-      <% const produtosUnicos = {}; %>
-      <% produtos.forEach(produto => { %>
-          <% if (produto.cabelo && !produtosUnicos['cabelo']) { %>
-            <div>
-              <input type="checkbox" id="cabelo"name="cabelo" value="cabelo"/>
-              <label for="cabelo">Cabelo</label>
-            </div>
-              <% produtosUnicos['cabelo'] = true; %>
+      <% if (typeof servicos !== 'undefined' && servicos.length > 0) { %>
+        <ul>
+          <% if (typeof servicos !== 'undefined' && servicos.length > 0) { %>
+            <ul>
+              <% for (let i = 0; i < servicos.length; i++) { %>
+                <% const descricaoDoServico = servicos[i].Servico.desc; %>
+                <% if (descricaoDoServico === "cabelo") { %>
+                  <div>
+                    <input type="checkbox" id="cabelo" name="cabelo" value="cabelo"/>
+                    <label for="cabelo">Cabelo</label>
+                  </div>
+                <% } if (descricaoDoServico === "barba") { %>
+                  <div>
+                    <input type= "checkbox" id="barba" name="barba" value="barba"/>
+                    <label for="barba">Barba</label>
+                  </div>
+                <% } if (descricaoDoServico === "sobrancelha") { %>
+                  <div>
+                    <input type="checkbox" id="sobrancelha" name="sobrancelha" value="sobrancelha"/>
+                    <label for="sobrancelha">Sobrancelha</label>
+                  </div>
+                <% } if (descricaoDoServico === "limpeza") { %>
+                  <div>
+                    <input type="checkbox" id="limpeza" name="limpeza" value="limpeza"/>
+                    <label for="limpeza">Limpeza</label>
+                  </div>
+                <% } if (descricaoDoServico === "nevou") { %>
+                  <div>
+                    <input type="checkbox" id="nevou" name="nevou" value="nevou"/>
+                    <label for="nevou">Nevou</label>
+                  </div>
+                <% } if (descricaoDoServico === "depilacao") { %>
+                  <div>
+                    <input type="checkbox" id="depilacao" name="depilacao" value="depilacao"/>
+                    <label for="depilacao">Depilação</label>
+                  </div>
+                <% } %>
+              <% } %>
+            </ul>
           <% } %>
 
-          <% if (produto.barba && !produtosUnicos['barba']) { %>
-            <div>
-              <input type="checkbox" id="barba" name="barba" value="barba"/>
-              <label for="barba">Barba</label>
-            </div>
-              <% produtosUnicos['barba'] = true; %>
-          <% } %>
+        </ul>
+      <% } %>
 
-          <% if (produto.sobrancelha && !produtosUnicos['sobrancelha']) { %>
-            <div>
-              <input type="checkbox" id="sobrancelha" name="sobrancelha" value="sobrancelha"/>
-              <label for="sobrancelha">Sobrancelha</label>
-            </div>
-              <% produtosUnicos['sobrancelha'] = true; %>
-          <% } %>
-
-          <% if (produto.limpeza && !produtosUnicos['limpeza']) { %>
-            <div>
-              <input type="checkbox" id="limpeza" name="limpeza" value="limpeza"/>
-              <label for="limpeza">Limpeza</label>
-            </div>
-              <% produtosUnicos['sobrancelha'] = true; %>
-          <% } %>
-
-          <% if (produto.nevou && !produtosUnicos['nevou']) { %>
-            <div>
-              <input type="checkbox" id="nevou" name="nevou" value="nevou"/>
-              <label for="nevou">Nevou</label>
-            </div>
-              <% produtosUnicos['nevou'] = true; %>
-          <% } %>
-
-          <% if (produto.depilacao && !produtosUnicos['depilacao']) { %>
-            <div>
-              <input type="checkbox" id="depilacao" name="depilacao" value="depilacao"/>
-              <label for="depilacao">Depilação</label>
-            </div>
-              <% produtosUnicos['depilacao'] = true; %>
-          <% } %>
-      <% }); %>
-
-      <!--Neste código, criamos um objeto produtosUnicos para rastrear os produtos que já foram adicionados à lista. Em seguida, verificamos se cada produto é diferente de null e se ainda não foi adicionado à lista única. Se for verdade, adicionamos o nome do produto à lista e atualizamos o objeto produtosUnicos. Isso garantirá que apenas produtos únicos sejam exibidos na lista, sem repetições.-->
   </ul>
 
   <br>

@@ -77,24 +77,60 @@ class ProdutosController {
   }
 
   async processarCompra(req, res){
-    const  cartao  =  req.session.userCartao
+    const cartao = req.session.userCartao
 
-    const db = {
-      "cabelo": req.body.cabelo,
-      "barba": req.body.barba,
-      "sobrancelha": req.body.sobrancelha,
-      "limpeza": req.body.limpeza,
-      "nevou": req.body.nevou,
-      "depilacao": req.body.depilacao,
-      "cliente_cartao": cartao
+    if (req.body.cabelo) {
+      const db = {
+        "cliente_cartao": cartao,
+        "cod_servico": 1
+      }
+      const user = await Produto.create(db);
+      console.log(db)
+      console.log(user)
+    }
+    if (req.body.barba){
+      const db = {
+        "cliente_cartao": cartao,
+        "cod_servico": 2
+      }
+      const user = await Produto.create(db);
+      console.log(db)
+    }
+    if (req.body.sobrancelha){
+      const db = {
+        "cliente_cartao": cartao,
+        "cod_servico": 3
+      }
+      const user = await Produto.create(db);
+      console.log(db)
+    }
+    if (req.body.limpeza){
+      const db = {
+        "cliente_cartao": cartao,
+        "cod_servico": 4
+      }
+      const user = await Produto.create(db);
+      console.log(db)
+    }
+    if (req.body.nevou){
+      const db = {
+        "cliente_cartao": cartao,
+        "cod_servico": 5
+      }
+      const user = await Produto.create(db);
+      console.log(db)
+    }
+    if (req.body.depilacao){
+      const db = {
+        "cliente_cartao": cartao,
+        "cod_servico": 6
+      }
+      const user = await Produto.create(db);
+      console.log(db)
     }
 
-    const user = await Produto.create(db);
 
-    console.log('--------------------------------------------------------')
-    console.log(db);
-    console.log('--------------------------------------------------------')
-    console.log(user)
+
     return res.render('index');
   }
 

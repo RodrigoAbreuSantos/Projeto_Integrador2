@@ -1,0 +1,27 @@
+up: (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert('servicos', [
+      {
+        desc: 'cabelo',
+      },
+      {
+        desc: 'barba',
+      },
+      {
+        desc: 'sobrancelha',
+      },
+      {
+        desc: 'limpeza',
+      },
+      {
+        desc: 'nevou',
+      },
+      {
+        desc: 'depilacao',
+      },
+    ]);
+  },
+
+
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.bulkDelete('servicos', null, {});
+  },

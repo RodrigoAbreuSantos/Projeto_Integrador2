@@ -40,6 +40,13 @@ npx sequelize db:seed:all
 
 
 
+npx sequelize db:migrate --name create-servicos
+npx sequelize db:migrate
+
+
+npx sequelize seed:generate --name seed-servicos
+npx sequelize db:seed:all
+
 
 
 

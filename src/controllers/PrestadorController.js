@@ -1,5 +1,6 @@
 import Cliente from '../models/Cliente'
 import Produto from '../models/Produto'
+import Servicos from '../models/Servicos';
 
 class PrestadorController {
 
@@ -23,42 +24,56 @@ class PrestadorController {
         return res.render('produtos', { error: 'Cartão Inválido, tente novamente' });
         //res.redirect('back')
       }
-      const produtos = await Produto.findAll();
 
-      const produtosComValores = produtos.map(produto => {
-        return {
-          cabelo: produto.cabelo || null,
-          barba: produto.barba || null,
-          sobrancelha: produto.sobrancelha || null,
-          nevou: produto.nevou || null,
-          depilacao: produto.depilacao || null,
-        };
-      });
-      //se chegou ate aqui quer dizer que esta tudo certo
+      const servicos = await Produto.findAll({
+        attributes: ['id', 'created_at', 'updated_at'],
+        include: [
+          {
+            model: Servicos,
+            attributes: ['id', 'desc'],
+          },
+        ],
+      })
 
+      servicos.forEach((produto) => {
+        console.log(produto)
+        console.log(`ID: ${produto.id}`);
+        console.log(`Data de Criação: ${produto.created_at}`);
+        console.log(`Data de Atualização: ${produto.updated_at}`);
+        console.log(`Serviço ID: ${produto.Servico.id}`); // Acesse o ID do Servico assim
+        console.log(`Descrição do Serviço: ${produto.Servico.desc}`);
+      })
+      console.log('Serviços', servicos)
 
-      // Defina o número do cartão como uma variável de contexto
-
-
-      // Após a validação do usuário
-
-       // Supondo que 'id' seja o ID do usuário
-
-      console.log(user)
-
-
-
-      return res.render('prestador', { hit: 'Usuario Logado com Sucesso', produtos: produtosComValores });
-
+      if (servicos.length > 0) {
+        return res.render('prestador', { hit: 'Usuário Logado com Sucesso', servicos });
+      } else {
+        return res.render('prestador', { error: 'Nenhum serviço associado a este usuário' });
+      }
+    } catch (erro) {
+      return res.render('prestador', { error: 'Erro ao verificar usuário' });
+    }
 
     }catch(erro){
       return res.render('prestador', { error: 'Erro ao verificar usuário' });
     }
 
-  }
+    utilizarServicos(req, res){
+      const totalServico = Object.keys(req.body).length
+      if (totalServico > 2){
+        
+      }
+      console.log(req.body)
+      console.log(Object.keys(req.body).length)
+      return res.render('index');
+    }
+
 
 
 }
+
+
+
 
 
 export default new PrestadorController();

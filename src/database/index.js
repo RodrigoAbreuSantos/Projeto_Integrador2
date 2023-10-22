@@ -3,9 +3,10 @@ import databaseConfig from '../config/database';
 import Cliente from '../models/Cliente' //todo model que criamos vai vir dentro desse arquivo aqui
 import Produto from "../models/Produto";
 import Servicos from "../models/Servicos";
+import Recompensas from "../models/Recompensas";
 
 //TODO MODULO QUE CRIARMOS VAMOS TER QUE TRAZER PARA CA, SENÃO SEU SISTEMA NÃO VAI FUNCIONAR
-const models = [Cliente, Produto, Servicos]; //vamos criar um array de Cliente que vai conter todos os nosso modulos, então se tivesse mais modulos importariamos os modulos aqui e colocariamos ele dentro desse array
+const models = [Cliente, Produto, Servicos, Recompensas]; //vamos criar um array de Cliente que vai conter todos os nosso modulos, então se tivesse mais modulos importariamos os modulos aqui e colocariamos ele dentro desse array
 
 const connection = new Sequelize(databaseConfig)//vai mandar as configurações da nossa base de dados aqui dentro
 models.forEach(model => {

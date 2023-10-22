@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/', prestadorController.prestador);
 router.post('/', prestadorController.verificaUsarioExiste);
 router.post('/utilizacao', prestadorController.utilizarServicos);
+router.post('/utilizacao/recompensas', prestadorController.utilizarRecompensas);
 
 export default router;
 

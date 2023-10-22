@@ -8,106 +8,152 @@
     <%- include('./javascript/fetch'); %>
     <%- include('./javascript/gerarCartao'); %>
 
+    <style>
+      /* Estilo para mensagens de erro */
+.error-message {
+    color: red;
+    font-weight: bold;
+}
 
+/* Estilo para mensagens de sucesso */
+.success-message {
+    color: green;
+    font-weight: bold;
+}
+
+/* Estilo para títulos de seção */
+.section-title {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+/* Estilo para a lista de serviços */
+.service-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Estilo para itens de serviço */
+.service-item {
+    margin-bottom: 10px;
+}
+
+/* Estilo para rótulos de serviço */
+.service-label {
+    font-size: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+/* Estilo para lista de flags de serviço */
+.service-flag-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+/* Estilo para flags de serviço */
+.service-flag {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Estilo para a contagem total de flags */
+.total-flags {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Estilo para lista de recompensas */
+.reward-label {
+    font-size: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+/* Estilo para botões de submissão */
+.btn-submit {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Estilo para a mensagem "Nenhuma recompensa encontrada" */
+.no-rewards {
+    font-size: 18px;
+    margin-top: 20px;
+}
+    </style>
 
 </head>
 <body>
-  <header class="header-cartao">
-    <div class="caixa">
-
-
-
-        <h1>Utilização e Recompensas</h1>
-
-        <br>
-
-
-</header>
-
-
-<hr class="hr">
-  <div class="divProdutoCard">
-    <form class="formulario" method="post">
-      <label for="cartao">Digite o numero do Cartão:</label>
-      <input type="number" id="cartao" name="cartao" class="cartaoProduto">
-      <button class="cartaoProduto">Validar Cartão</button>
-  </form>
-  </div>
-  <br>
-
-  <% if (typeof error !== 'undefined' && error !== '') { %>
-    <p><%= error %></p>
+    <header class="header-cartao">
+        <div class="caixa">
+            <h1>Utilização e Recompensas</h1>
+        </div>
+    </header>
+    <hr class="hr">
+    <div class="divProdutoCard">
+        <form class="formulario" method="post">
+            <label for="cartao">Digite o número do Cartão:</label>
+            <input type="number" id="cartao" name="cartao" class="cartaoProduto">
+            <button class="cartaoProduto">Validar Cartão</button>
+        </form>
+    </div>
+    <br>
+    <% if (typeof error !== 'undefined' && error !== '') { %>
+      <p class="error-message"><%= error %></p>
   <% } %>
-
   <% if (typeof hit !== 'undefined' && hit !== '') { %>
-    <p><%= hit %></p>
-    <h2 style="text-align: center;">Serviços associados:</h2>
-    <form class="formulario2" method="post" action="/prestador/utilizacao">
-      <br><br>
-    <ul>
-      <% if (typeof servicos !== 'undefined' && servicos.length > 0) { %>
-        <ul>
+      <p class="success-message"><%= hit %></p>
+      <h2 class="section-title">Serviços associados:</h2>
+      <ul>
           <% if (typeof servicos !== 'undefined' && servicos.length > 0) { %>
-            <ul>
-              <% for (let i = 0; i < servicos.length; i++) { %>
-                <% const descricaoDoServico = servicos[i].Servico.desc; %>
-                <% if (descricaoDoServico === "cabelo") { %>
-                  <div>
-                    <input type="checkbox" id="cabelo" name="cabelo" value="cabelo"/>
-                    <label for="cabelo">Cabelo</label>
-                  </div>
-                <% } if (descricaoDoServico === "barba") { %>
-                  <div>
-                    <input type= "checkbox" id="barba" name="barba" value="barba"/>
-                    <label for="barba">Barba</label>
-                  </div>
-                <% } if (descricaoDoServico === "sobrancelha") { %>
-                  <div>
-                    <input type="checkbox" id="sobrancelha" name="sobrancelha" value="sobrancelha"/>
-                    <label for="sobrancelha">Sobrancelha</label>
-                  </div>
-                <% } if (descricaoDoServico === "limpeza") { %>
-                  <div>
-                    <input type="checkbox" id="limpeza" name="limpeza" value="limpeza"/>
-                    <label for="limpeza">Limpeza</label>
-                  </div>
-                <% } if (descricaoDoServico === "nevou") { %>
-                  <div>
-                    <input type="checkbox" id="nevou" name="nevou" value="nevou"/>
-                    <label for="nevou">Nevou</label>
-                  </div>
-                <% } if (descricaoDoServico === "depilacao") { %>
-                  <div>
-                    <input type="checkbox" id="depilacao" name="depilacao" value="depilacao"/>
-                    <label for="depilacao">Depilação</label>
-                  </div>
-                <% } %>
-              <% } %>
-            </ul>
+              <form method="post" action="/prestador/utilizacao">
+                  <ul class="service-list">
+                      <% for (let i = 0; i < servicos.length; i++) { %>
+                          <li class="service-item">
+                              <input type="checkbox" id="<%= servicos[i].Servico.desc %>"
+                                     name="<%= servicos[i].Servico.desc %>"
+                                     value="<%= servicos[i].Servico.desc %>" <% if (servicos[i].flag) { %>disabled<% } %> />
+                              <label for="<%= servicos[i].Servico.desc %>" class="service-label">
+                                  <%= servicos[i].Servico.desc %> - Flag: <%= servicos[i].flag %>
+                              </label>
+                          </li>
+                      <% } %>
+                  </ul>
+                  <button class="btn-submit">Realizar Serviços</button>
+              </form>
           <% } %>
+      </ul>
 
-        </ul>
-      <% } %>
-
-  </ul>
-
-  <br>
-
-  <button>Realizar Compras</button>
-
-</form>
-
-
-
+      <h2 class="section-title">Recompensas</h2>
+      <ul>
+          <% if (mostrarRecompensas && mostrarRecompensas.length > 0) { %>
+              <% mostrarRecompensas.forEach(recompensa => { %>
+                  <form method="post" action="/prestador/utilizacao/recompensas">
+                      <input type="checkbox" id="<%= recompensa.desc %>"
+                             name="<%= recompensa.desc %>"
+                             value="<%= recompensa.desc %>" <% if (recompensa.flag) { %>disabled<% } %> />
+                      <label for="<%= recompensa.desc %>" class="reward-label">
+                          <%= recompensa.desc %> - Flag: <%= recompensa.flag %>
+                      </label>
+                      <button class="btn-submit">Realizar Recompensas</button>
+                  </form>
+              <% }); %>
+          <% } else { %>
+              <li class="no-rewards">Nenhuma recompensa encontrada.</li>
+          <% } %>
+      </ul>
   <% } %>
 
-
-
-
-        <%- include('./javascript/escondeForm'); %>
-
-
-
-
+    <%- include('./javascript/escondeForm'); %>
 </body>
 </html>

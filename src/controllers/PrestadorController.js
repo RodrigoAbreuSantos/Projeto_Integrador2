@@ -1,5 +1,6 @@
 import Cliente from '../models/Cliente'
 import Produto from '../models/Produto'
+import Recompensas from '../models/Recompensas';
 import Servicos from '../models/Servicos';
 const { Op } = require('sequelize');
 
@@ -29,9 +30,15 @@ class PrestadorController {
         //res.redirect('back')
       }
 
+       //Acesse a flag a partir da variável de sessão
+      const flag = req.session.flag;
+
 
       const servicos = await Produto.findAll({
-        attributes: ['id', 'created_at', 'updated_at'],
+        attributes: ['id', 'flag', 'created_at', 'updated_at'],
+        where: {
+          cliente_cartao: numeroDoCartaoNoReq,
+        },
         include: [
           {
             model: Servicos,
@@ -40,18 +47,29 @@ class PrestadorController {
         ],
       })
 
-      servicos.forEach((produto) => {
-        console.log(produto)
-        console.log(`ID: ${produto.id}`);
-        console.log(`Data de Criação: ${produto.created_at}`);
-        console.log(`Data de Atualização: ${produto.updated_at}`);
-        console.log(`Serviço ID: ${produto.Servico.id}`); // Acesse o ID do Servico assim
-        console.log(`Descrição do Serviço: ${produto.Servico.desc}`);
-      })
-      console.log('Serviços', servicos)
+      const totalFlagsVerdadeiras = servicos.filter(produto => produto.flag === true).length;
+      console.log('TOTAL FLAG VERDADEIRA: ', totalFlagsVerdadeiras)
+
+      const tabelaRecompensa = {
+        desc: "Corte Completo",
+        cliente_cartao: numeroDoCartaoNoReq,
+        flag: false
+      }
+
+      const totalRegistros = await Recompensas.count();
+      console.log('Total de Registros de Recompensas:', totalRegistros);
+
+      if (totalFlagsVerdadeiras > 2 && totalRegistros === 0){
+        const recompensa = await Recompensas.create(tabelaRecompensa)
+        console.log(recompensa)
+      }
+
+      const mostrarRecompensas = await Recompensas.findAll({ where: { cliente_cartao: numeroDoCartaoNoReq }})
+
+
 
       if (servicos.length > 0) {
-        return res.render('prestador', { hit: 'Usuário Logado com Sucesso', servicos });
+        return res.render('prestador', { hit: 'Usuário Logado com Sucesso', servicos, flag, mostrarRecompensas });
       } else {
         return res.render('prestador', { error: 'Nenhum serviço associado a este usuário' });
       }
@@ -59,7 +77,11 @@ class PrestadorController {
       return res.render('prestador', { error: 'Erro ao verificar usuário' });
     }
 
+
     }
+
+
+
 
     async utilizarServicos(req, res) {
       try {
@@ -79,13 +101,6 @@ class PrestadorController {
           {desc: novoObjeto.desc.depilacao}
         ]
 
-
-        //console.log(numeroDoCartaoNoReq);
-        //console.log(novoObjeto);
-        //console.log(novoObjeto.desc);
-        //console.log(novoObjeto.desc.cabelo);
-        //console.log(atual)
-
         // Filtrar para remover itens undefined
         const descricoesValidas = atual.filter(item => item.desc !== undefined);
         console.log(descricoesValidas)
@@ -98,7 +113,7 @@ class PrestadorController {
           where: {
             [Op.or]: descricoesValidas
           },
-          attributes: ['id', 'desc'] // Remova 'created_at' e 'updated_at'
+          attributes: ['id', 'desc']
         });
 
         //Esta retornado os id da variavel serviços
@@ -113,26 +128,36 @@ class PrestadorController {
         }
       })
 
-        console.log(servicoProduto)
-
-        //const updateProdutos = await Produto.update()
-
-        //produto.forEach((campo) => console.log(campo.cod_servico) )
-
+      servicoProduto.forEach(async (campo) => {
+        await Produto.update({ flag: true }, { where: { id: campo.id } });
+        req.session.flag = true; // Defina a flag na sessão
+      });
 
 
-
-        //console.log(servicos)
-        //const servico = await Servicos.findAll({ where: { desc: req.body } })
-
-        return res.render('index');
+        return res.render('prestador');
       } catch (erro) {
         console.error(erro);
         return res.render('prestador', { error: 'Erro ao utilizar serviços' });
       }
     }
 
+    async utilizarRecompensas(req, res) {
+      try {
+        const numeroDoCartaoNoReq = req.session.numeroDoCartao;
 
+        // Atualize as recompensas definindo a flag como 'true' para indicar que foram usadas.
+        const utilizarRecompensas = await Recompensas.update({ flag: true }, {
+          where: { cliente_cartao: numeroDoCartaoNoReq, flag: false }
+        });
+
+        console.log(utilizarRecompensas); // Isso mostrará quantas recompensas foram atualizadas.
+
+        return res.redirect(302, '/prestador');
+      } catch (erro) {
+        console.error(erro);
+        return res.redirect(302, '/prestador');
+      }
+    }
 
 }
 

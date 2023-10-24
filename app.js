@@ -7,7 +7,9 @@ import cartaoRoutes from './src/routes/cartaoRoutes.js'
 import produtosRoutes from './src/routes/produtosRoutes.js'
 import relatorioRoutes from './src/routes/relatorioRoutes.js'
 import prestadorRoutes from './src/routes/prestadorRoutes.js'
+import relatorioGeralRoutes from './src/routes/relatorioGeralRoutes.js'
 const session = require('express-session')
+const flash = require('express-flash');
 
 dotenv.config();
 
@@ -15,6 +17,7 @@ class App {
   constructor() { //sempre que instanciar a classe o contructor vai ser executado
     this.app = express(); //atributo app recebe o express
     this.salvarSessao();
+    this.salvarMensagem();
     this.middlewares(); //o metodo middleware vai ser chamado
     this.routes();
   }
@@ -24,6 +27,10 @@ class App {
       resave: false,          // Evita que a sessão seja salva a cada solicitação
       saveUninitialized: true // Salva uma sessão mesmo se ela ainda não foi inicializada
     }));
+  }
+
+  salvarMensagem(){
+    this.app.use(flash());
   }
 
 
@@ -39,6 +46,7 @@ class App {
     this.app.use('/produtos', produtosRoutes);
     this.app.use('/relatorio', relatorioRoutes);
     this.app.use('/prestador', prestadorRoutes);
+    this.app.use('/relatorioGeral', relatorioGeralRoutes);
     this.app.use('/users', userRoutes);
   }
 }

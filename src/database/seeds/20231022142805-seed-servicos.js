@@ -10,6 +10,9 @@ module.exports = {
       { desc: 'limpeza' },
       { desc: 'nevou' },
       { desc: 'depilacao' },
+      { desc: 'cabeloBarba'},
+      { desc: 'cabeloSobrancelha'},
+      { desc: 'barbaSobrancelha'}
     ]);
   },
 

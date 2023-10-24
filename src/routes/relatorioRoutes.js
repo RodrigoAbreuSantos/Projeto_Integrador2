@@ -4,10 +4,14 @@ import express from 'express';
 const router = express.Router();
 
 // Rota para exibir o formulário de produtos
+// Rota para exibir o formulário de produtos
 router.get('/', relatorioController.relatorio);
 
 // Rota para processar a seleção de produtos após verificar o cartão
-router.post('/', relatorioController.verificaUsarioExiste, relatorioController.mostrarRelatorio);
+router.post('/verificar', relatorioController.verificaUsarioExiste);
+
+
+
 
 
 

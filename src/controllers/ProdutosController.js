@@ -128,6 +128,30 @@ class ProdutosController {
       const user = await Produto.create(db);
       console.log(db)
     }
+    if (req.body.cabeloBarba){
+      const db = {
+        "cliente_cartao": cartao,
+        "cod_servico": 7
+      }
+      const user = await Produto.create(db);
+      console.log(db)
+    }
+    if (req.body.cabeloSobrancelha){
+      const db = {
+        "cliente_cartao": cartao,
+        "cod_servico": 8
+      }
+      const user = await Produto.create(db);
+      console.log(db)
+    }
+    if (req.body.barbaSobrancelha){
+      const db = {
+        "cliente_cartao": cartao,
+        "cod_servico": 9
+      }
+      const user = await Produto.create(db);
+      console.log(db)
+    }
 
 
 

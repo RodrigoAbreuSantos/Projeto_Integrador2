@@ -8,6 +8,8 @@ class CartaoController {
   }
 
   async teste(req, res){
+
+    //Gerar numero sequencial
     const valorGerado = Math.floor(Math.random() * 9999) + 1000;
     if (!valorGerado){ //se não achar o user vai mostrar esse resposta
       console.log('Erro no Sistema')

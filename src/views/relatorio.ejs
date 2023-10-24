@@ -7,17 +7,12 @@
     <%- include('./css/styles'); %>
     <%- include('./javascript/fetch'); %>
     <%- include('./javascript/gerarCartao'); %>
-
-
-
 </head>
 <body>
   <header class="header-cartao">
     <div class="caixa">
         <h1>Sistema De Compras de Produtos e Serviços</h1>
-
         <br>
-
         <nav>
             <ul>
                 <li><a href="/gerarCard" class="irCartao">Gerar Cartão</a></li>
@@ -26,18 +21,18 @@
             </ul>
         </nav>
     </div>
-</header>
-<br><br><br><br>
-<hr>
+  </header>
+  <br><br><br><br>
+  <hr>
   <section class="container">
     <h1 class="tit-card">Relatorio</h1>
 
     <div class="divProdutoCard">
-      <form class="formulario" method="post">
-        <label for="cartao">Digite o numero do Cartão:</label>
+      <form class="formulario" method="post" action="/relatorio/verificar">
+        <label for="cartao">Digite o número do Cartão:</label>
         <input type="number" id="cartao" name="cartao" class="cartaoProduto">
         <button class="cartaoProduto">Validar Cartão</button>
-    </form>
+      </form>
     </div>
     <br>
 
@@ -49,15 +44,25 @@
       <p><%= hit %></p>
       <div id="minhaDiv">
         <h1>Conteúdo da Div:</h1>
-        <h3>Serviços ou kits adquiridos</h3>
+        <h3>Serviços adquiridos</h3>
         <ul>
-          <li>Serviço adquirido e data da compra</li>
-          <li>Kits adquiridos e data da compra</li>
+          <% servicosAdquiridos.forEach((servico) => { %>
+            <li>Serviço adquirido: <%= servico.servico %> - Data da compra: <%= servico.dataCompra %></li>
+          <% }); %>
+        </ul>
+
+        <h3>Kits adquiridos</h3>
+        <ul>
+          <% kitsAdquiridos.forEach((kit) => { %>
+            <li>Kit adquirido: <%= kit.kit %> - Data da compra: <%= kit.dataCompra %></li>
+          <% }); %>
         </ul>
 
         <h3>Utilizações</h3>
         <ul>
-          <li>Data da utilização e Serviços realizados</li>
+          <% servicosRealizados.forEach((servico) => { %>
+            <li>Data da utilização: <%= servico.dataCompra %> - Serviço realizado: <%= servico.servico %></li>
+          <% }); %>
         </ul>
 
         <h3>Recompensas</h3>
@@ -66,12 +71,12 @@
           <li>Recompensas realizadas e data</li>
         </ul>
 
-        <h3>Saldos de serviços e recompensas não realizadas</h3>
-
-    </div>
+        <h3>Recompensas não realizadas</h3>
+      </div>
     <% } %>
 
+    <!-- Adicione esta parte em seu arquivo EJS -->
 
-</section>
+  </section>
 </body>
 </html>

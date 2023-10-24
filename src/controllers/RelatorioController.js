@@ -1,11 +1,12 @@
-import Cliente from '../models/Cliente'
-import Produto from '../models/Produto'
+import Cliente from '../models/Cliente';
+import Produto from '../models/Produto';
+import Recompensas from '../models/Recompensas';
+import Servicos from '../models/Servicos';
 
-class ProdutosController {
-
-  //METODO QUE LEVA PARA A ROTA PRODUTOS
-  relatorio(req, res){
-    return res.render('relatorio');
+class RelatorioController {
+  // Método que leva para a rota de relatório
+  relatorio(req, res) {
+    res.render('relatorio');
   }
 
   async verificaUsarioExiste(req, res, next){ //nesse rota queremos receber dados e checar se o usuario existe na base de dados
@@ -14,29 +15,88 @@ class ProdutosController {
 
       const user = await Cliente.findOne({ where: { cartao: numeroDoCartaoNoReq } })
 
-      //nome e cartao que o usuario esta enviando, é o que vem do form
-
-      //esta procurando se tem algum usuario com a chave cartao e o valor cartaoBody, ou seja o primeiro parametro é a chave e o segundo é o valor que esta sendo pego do req.body, e ele ta vendo se tem algum usuario no banco de dados com a chave cartao que tenha o mesmo valor que esta vindo do req.body
-
       if (!user){ //se não achar o user vai mostrar esse resposta
         console.log('Cartão Invalido')
         return res.render('relatorio', { error: 'Cartão Inválido, tente novamente' });
         //res.redirect('back')
       }
 
-      //se chegou ate aqui quer dizer que esta tudo certo
+      const tabelaProdutos = await Produto.findAll({
+        attributes: ['id', 'cliente_cartao', 'cod_servico', 'flag', 'created_at', 'updated_at'],
+        where: {
+          cliente_cartao: numeroDoCartaoNoReq,
+        },
+        include: [
+          {
+            model: Servicos,
+            attributes: ['id', 'desc'],
+          },
+        ],
+      })
+
+      const recompensaServicos = await Recompensas.findAll({ where: { cliente_cartao: numeroDoCartaoNoReq}})
 
 
-      // Defina o número do cartão como uma variável de contexto
+      //Serviços ou kits adquiridos
+      const servicosAdquiridos = [];
+      const kitsAdquiridos = [];
+
+      tabelaProdutos.forEach((campo) => {
+        if ([1, 2, 3, 4, 5, 6].includes(campo.cod_servico)) {
+          servicosAdquiridos.push({
+            servico: campo.Servico.desc,
+            dataCompra: new Date(campo.created_at).toLocaleDateString(),
+          });
+        } else if ([7, 8, 9].includes(campo.cod_servico)) {
+          kitsAdquiridos.push({
+            kit: campo.Servico.desc,
+            dataCompra: new Date(campo.created_at).toLocaleDateString(),
+          });
+        }
+      });
 
 
-      // Após a validação do usuário
+      //Utilizações
+      const servicosRealizados = [];
 
-      req.session.userId = user.id; // Supondo que 'id' seja o ID do usuário
+      tabelaProdutos.forEach((campo) => {
+        if (campo.flag) {
+          servicosRealizados.push({
+            servico: campo.Servico.desc,
+            dataCompra: new Date(campo.created_at).toLocaleDateString(),
+          })
+        }
+      });
 
-      next()
+      //Recompensas
+      recompensaServicos.forEach((campo) => {
+        if (!campo.flag || campo.flag){
+          const dataUtilizacao = new Date(campo.created_at);
+          const dia = dataUtilizacao.getDate();
+          const mes = dataUtilizacao.getMonth() + 1;
+          const ano = dataUtilizacao.getFullYear();
+          const hora = dataUtilizacao.getHours();
+          const minutos = dataUtilizacao.getMinutes();
+          const segundos = dataUtilizacao.getSeconds();
 
-      return res.render('relatorio', { hit: 'Usuario Logado com Sucesso' });
+          console.log('Data e Hora de utilização: ', `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`);
+          console.log('Recompensa Adquirido', campo.desc);
+        }
+        if (campo.flag){
+          const dataUtilizacao = new Date(campo.updated_at);
+          const dia = dataUtilizacao.getDate();
+          const mes = dataUtilizacao.getMonth() + 1;
+          const ano = dataUtilizacao.getFullYear();
+          const hora = dataUtilizacao.getHours();
+          const minutos = dataUtilizacao.getMinutes();
+          const segundos = dataUtilizacao.getSeconds();
+
+          console.log('Data e Hora de utilização: ', `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`);
+          console.log('Recompensa Utilizada', campo.desc);
+        }
+      })
+
+      return res.render('relatorio', { hit: 'Usuario Logado com Sucesso', servicosAdquiridos, kitsAdquiridos, servicosRealizados });
 
 
     }catch(erro){
@@ -45,40 +105,7 @@ class ProdutosController {
 
   }
 
-  async mostrarRelatorio(req, res, next) {
-    try {
-      if (req.session.userId) {
-         // Obtenha os produtos selecionados do corpo da requisição
-        const id = req.session.userId
-        // Exibe os produtos selecionados e o ID do usuário no console (apenas para fins de depuração)
-     
 
-        console.log('Req Body: ', req.body, 'Req Id:', req.session.userId)
-
-
-
-        /*const user = await Produto.create({
-          "produtos": ["barba", "sobrancelha", "limpeza"],
-          "cliente_id": 1
-        })
-        */
-
-        // Renderize uma página ou mensagem de confirmação com os produtos selecionados
-
-
-
-
-      } else {
-        throw new Error('Número do cartão não encontrado na sessão.');
-      }
-    } catch (erro) {
-      console.error('Erro em processarCompra:', erro);
-      return res.render('relatorio', { error: erro.message });
-    }
-
-  }
 }
 
-export default new ProdutosController();
-
-//vamos criar um dado na base de dados
+export default new RelatorioController();

@@ -4,92 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Barbearia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <%- include('./css/styles'); %>
     <%- include('./javascript/fetch'); %>
     <%- include('./javascript/gerarCartao'); %>
 
     <style>
-      /* Estilo para mensagens de erro */
-.error-message {
-    color: red;
-    font-weight: bold;
-}
+        /* Estilo para mensagens de erro */
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
 
-/* Estilo para mensagens de sucesso */
-.success-message {
-    color: green;
-    font-weight: bold;
-}
+        /* Estilo para mensagens de sucesso */
+        .success-message {
+            color: green;
+            font-weight: bold;
+        }
 
-/* Estilo para títulos de seção */
-.section-title {
-    font-size: 24px;
-    margin-top: 20px;
-}
+        /* Estilo para títulos de seção */
+        .section-title {
+            font-size: 24px;
+            margin-top: 20px;
+        }
 
-/* Estilo para a lista de serviços */
-.service-list {
-    list-style: none;
-    padding: 0;
-}
+        /* Estilo para a lista de serviços */
+        .service-list, .reward-list {
+            list-style: none;
+            padding: 0;
+        }
 
-/* Estilo para itens de serviço */
-.service-item {
-    margin-bottom: 10px;
-}
+        /* Estilo para itens de serviço */
+        .service-item, .reward-item {
+            margin-bottom: 10px;
+        }
 
-/* Estilo para rótulos de serviço */
-.service-label {
-    font-size: 18px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 10px;
-}
+        /* Estilo para rótulos de serviço */
+        .service-label, .reward-label {
+            font-size: 18px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
 
-/* Estilo para lista de flags de serviço */
-.service-flag-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
+        /* Estilo para botões de submissão */
+        .btn-submit {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
 
-/* Estilo para flags de serviço */
-.service-flag {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
+        /* Estilo para a mensagem "Nenhuma recompensa encontrada" */
+        .no-rewards {
+            font-size: 18px;
+            margin-top: 20px;
+        }
 
-/* Estilo para a contagem total de flags */
-.total-flags {
-    font-size: 18px;
-    text-align: center;
-    margin-top: 20px;
-}
+        /* Estilo para a coluna de serviços */
+        .service-column {
+            float: left;
+            width: 50%;
+        }
 
-/* Estilo para lista de recompensas */
-.reward-label {
-    font-size: 18px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 10px;
-}
+        /* Estilo para a coluna de recompensas */
+        .reward-column {
+            float: left;
+            width: 50%;
+        }
 
-/* Estilo para botões de submissão */
-.btn-submit {
-    background-color: #007BFF;
-    color: #fff;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-}
-
-/* Estilo para a mensagem "Nenhuma recompensa encontrada" */
-.no-rewards {
-    font-size: 18px;
-    margin-top: 20px;
-}
+        /* Clear floats após as colunas */
+        .clear {
+            clear: both;
+        }
     </style>
 
 </head>
@@ -109,50 +99,63 @@
     </div>
     <br>
     <% if (typeof error !== 'undefined' && error !== '') { %>
-      <p class="error-message"><%= error %></p>
-  <% } %>
-  <% if (typeof hit !== 'undefined' && hit !== '') { %>
-      <p class="success-message"><%= hit %></p>
-      <h2 class="section-title">Serviços associados:</h2>
-      <ul>
-          <% if (typeof servicos !== 'undefined' && servicos.length > 0) { %>
-              <form method="post" action="/prestador/utilizacao">
-                  <ul class="service-list">
+        <p class="error-message"><%= error %></p>
+    <% } %>
+    <% if (typeof hit !== 'undefined' && hit !== '') { %>
+        <p class="success-message"><%= hit %></p>
+        <div class="service-column">
+            <h2 class="section-title">Serviços associados:</h2>
+            <ul class="service-list">
+                <% if (typeof servicos !== 'undefined' && servicos.length > 0) { %>
+                    <form method="post" action="/prestador/utilizacao">
                       <% for (let i = 0; i < servicos.length; i++) { %>
-                          <li class="service-item">
-                              <input type="checkbox" id="<%= servicos[i].Servico.desc %>"
-                                     name="<%= servicos[i].Servico.desc %>"
-                                     value="<%= servicos[i].Servico.desc %>" <% if (servicos[i].flag) { %>disabled<% } %> />
-                              <label for="<%= servicos[i].Servico.desc %>" class="service-label">
-                                  <%= servicos[i].Servico.desc %> - Flag: <%= servicos[i].flag %>
+                        <li class="service-item">
+                            <input type="checkbox" id="<%= servicos[i].Servico.desc %>"
+                                   name="<%= servicos[i].Servico.desc %>"
+                                   value="<%= servicos[i].Servico.desc %>" <% if (servicos[i].flag) { %>disabled<% } %> />
+                            <label for="<%= servicos[i].Servico.desc %>" class="service-label">
+                                <%= servicos[i].Servico.desc %>
+                                <% if (servicos[i].flag) { %>
+                                    <i class="fas fa-check"></i>
+                                <% } %>
+                            </label>
+                        </li>
+                    <% } %>
+                        <br>
+                        <button class="btn-submit">Realizar Serviços</button>
+                    </form>
+                <% } %>
+            </ul>
+        </div>
+
+        <div class="reward-column">
+          <h2 class="section-title">Recompensas</h2>
+          <form method="post" action="/prestador/utilizacao/recompensas">
+              <ul class="reward-list">
+                  <% if (mostrarRecompensas && mostrarRecompensas.length > 0) { %>
+                      <% mostrarRecompensas.forEach(recompensa => { %>
+                          <li class="reward-item">
+                              <input type="checkbox" id="<%= recompensa.desc %>"
+                                     name="<%= recompensa.desc %>"
+                                     value="<%= recompensa.desc %>" <% if (recompensa.flag) { %>disabled<% } %> />
+                              <label for="<%= recompensa.desc %>" class="reward-label">
+                                  <%= recompensa.desc %>
+                                  <% if (recompensa.flag) { %>
+                                      <i class="fas fa-check"></i>
+                                  <% } %>
                               </label>
                           </li>
-                      <% } %>
-                  </ul>
-                  <button class="btn-submit">Realizar Serviços</button>
-              </form>
-          <% } %>
-      </ul>
+                      <% }); %>
+                  <% } else { %>
+                      <li class="no-rewards">Nenhuma recompensa encontrada.</li>
+                  <% } %>
+              </ul>
+              <button class="btn-submit">Realizar Recompensas</button>
+          </form>
+      </div>
+      <div class="clear"></div>
+<% } %>
 
-      <h2 class="section-title">Recompensas</h2>
-      <ul>
-          <% if (mostrarRecompensas && mostrarRecompensas.length > 0) { %>
-              <% mostrarRecompensas.forEach(recompensa => { %>
-                  <form method="post" action="/prestador/utilizacao/recompensas">
-                      <input type="checkbox" id="<%= recompensa.desc %>"
-                             name="<%= recompensa.desc %>"
-                             value="<%= recompensa.desc %>" <% if (recompensa.flag) { %>disabled<% } %> />
-                      <label for="<%= recompensa.desc %>" class="reward-label">
-                          <%= recompensa.desc %> - Flag: <%= recompensa.flag %>
-                      </label>
-                      <button class="btn-submit">Realizar Recompensas</button>
-                  </form>
-              <% }); %>
-          <% } else { %>
-              <li class="no-rewards">Nenhuma recompensa encontrada.</li>
-          <% } %>
-      </ul>
-  <% } %>
 
     <%- include('./javascript/escondeForm'); %>
 </body>

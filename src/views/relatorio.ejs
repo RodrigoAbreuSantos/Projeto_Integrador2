@@ -5,45 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Barbearia</title>
     <%- include('./css/styles'); %>
-    <%- include('./javascript/fetch'); %>
-    <%- include('./javascript/gerarCartao'); %>
+    <style>
+      body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.header-cartao {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Adicione este CSS para remover a seta de aumento e diminuição do input type="number" */
+.cartaoProduto::-webkit-outer-spin-button,
+.cartaoProduto::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.cartaoProduto {
+    /* Para navegadores que não suportam o -webkit- */
+    appearance: none;
+}
+
+
+h1 {
+    font-size: 28px;
+    margin: 0;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #fff;
+    margin: 0 15px;
+    font-weight: 600;
+}
+
+hr {
+    border: 1px solid #ddd;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    max-width: 800px;
+}
+
+.section-title {
+    font-size: 24px;
+    text-align: center;
+}
+
+.form-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cartaoProduto {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.error-message {
+    color: #d9534f;
+    font-weight: 600;
+    text-align: center;
+}
+
+.success-message {
+    color: #5bc0de;
+    font-weight: 600;
+    text-align: center;
+}
+
+    </style>
 </head>
 <body>
   <header class="header-cartao">
-    <div class="caixa">
+    <div class="header-content">
         <h1>Sistema De Compras de Produtos e Serviços</h1>
-        <br>
         <nav>
             <ul>
-                <li><a href="/gerarCard" class="irCartao">Gerar Cartão</a></li>
-                <li><a href="/produtos" class="irProdutos">Produtos</a></li>
-                <li><a href="/relatorio">Relatorio</a></li>
+                <li><a href="/gerarCard" class="nav-link">Gerar Cartão</a></li>
+                <li><a href="/produtos" class="nav-link">Produtos</a></li>
+                <li><a href="/relatorio" class="nav-link">Relatório</a></li>
             </ul>
         </nav>
     </div>
   </header>
-  <br><br><br><br>
   <hr>
   <section class="container">
-    <h1 class="tit-card">Relatorio</h1>
+    <h1 class="section-title">Relatório</h1>
 
     <div class="divProdutoCard">
       <form class="formulario" method="post" action="/relatorio/verificar">
-        <label for="cartao">Digite o número do Cartão:</label>
-        <input type="number" id="cartao" name="cartao" class="cartaoProduto">
-        <button class="cartaoProduto">Validar Cartão</button>
+          <label for="cartao">Digite o número do Cartão:</label>
+          <!-- Adicione o atributo readonly para evitar a edição manual -->
+          <input type="number" id="cartao" name="cartao" class="cartaoProduto">
+          <button class="cartaoProduto">Validar Cartão</button>
       </form>
-    </div>
-    <br>
+  </div>
 
     <% if (typeof error !== 'undefined' && error !== '') { %>
-      <p><%= error %></p>
+      <p class="error-message"><%= error %></p>
     <% } %>
 
     <% if (typeof hit !== 'undefined' && hit !== '') { %>
-      <p><%= hit %></p>
+      <p class="success-message"><%= hit %></p>
       <div id="minhaDiv">
-        <h1>Conteúdo da Div:</h1>
+        <h2>Relatório de Serviços do Cliente</h2>
+
         <h3>Serviços adquiridos</h3>
         <ul>
           <% servicosAdquiridos.forEach((servico) => { %>
@@ -61,21 +157,22 @@
         <h3>Utilizações</h3>
         <ul>
           <% servicosRealizados.forEach((servico) => { %>
-            <li>Data da utilização: <%= servico.dataCompra %> - Serviço realizado: <%= servico.servico %></li>
+            <li>Serviço realizado: <%= servico.servico %> - Data da utilização: <%= servico.dataCompra %></li>
           <% }); %>
         </ul>
 
         <h3>Recompensas</h3>
         <ul>
-          <li>Recompensa recebida e data</li>
-          <li>Recompensas realizadas e data</li>
-        </ul>
+          <% recompensaAdquirida.forEach((recompensa) => { %>
+            <li>Recompensa Adquirida: <%= recompensa.recompensa %> - Data da Compra: <%= recompensa.dataCompra %></li>
+          <% }); %>
 
-        <h3>Recompensas não realizadas</h3>
+          <% recompensaRealizada.forEach((recompensa) => { %>
+            <li>Recompensa Realizada: <%= recompensa.recompensa %> - Data da utilização: <%= recompensa.dataCompra %></li>
+          <% }); %>
+        </ul>
       </div>
     <% } %>
-
-    <!-- Adicione esta parte em seu arquivo EJS -->
 
   </section>
 </body>

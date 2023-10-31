@@ -4,15 +4,15 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('servicos', [
-      { desc: 'cabelo' },
-      { desc: 'barba' },
-      { desc: 'sobrancelha' },
-      { desc: 'limpeza' },
-      { desc: 'nevou' },
-      { desc: 'depilacao' },
-      { desc: 'cabeloBarba'},
-      { desc: 'cabeloSobrancelha'},
-      { desc: 'barbaSobrancelha'}
+      { id: 1, desc: 'cabelo' },
+      { id: 2, desc: 'barba' },
+      { id: 3, desc: 'sobrancelha' },
+      { id: 4, desc: 'limpeza' },
+      { id: 5, desc: 'nevou' },
+      { id: 6, desc: 'depilacao' },
+      { id: 7, desc: 'cabeloBarba'},
+      { id: 8, desc: 'cabeloSobrancelha'},
+      { id: 9, desc: 'barbaSobrancelha'}
     ]);
   },
 

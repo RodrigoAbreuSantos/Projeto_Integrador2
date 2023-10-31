@@ -2,7 +2,7 @@ import Cliente from '../models/Cliente';
 import Produto from '../models/Produto';
 import Recompensas from '../models/Recompensas';
 import Servicos from '../models/Servicos';
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 class RelatorioGeralController {
   // Método que leva para a rota de relatório
@@ -28,15 +28,42 @@ class RelatorioGeralController {
     //Dados sobre vendas
     const quantidadeVendasServicosIndividuais = servicosIndividual.length;
     const quantidadeVendasKitsServicos = kitServico.length;
-    console.log('Quantidade de Vendas de serviços individuais: ', quantidadeVendasServicosIndividuais);
-    console.log('Quantidade de Vendas de kits de serviços: ', quantidadeVendasKitsServicos)
 
     //Dados sobre utilização de serviços
+    const cabelo = await Produto.count({ where: { cod_servico: 1 } });
+    const barba = await Produto.count({ where: { cod_servico: 2 } });
+    const sobrancelha = await Produto.count({ where: { cod_servico: 3 } });
+    const limpeza = await Produto.count({ where: { cod_servico: 4 } });
+    const nevou = await Produto.count({ where: { cod_servico: 5 } });
+    const depilacao = await Produto.count({ where: { cod_servico: 6 } });
+    const cabeloBarba = await Produto.count({ where: { cod_servico: 7 } });
+    const cabeloSobrancelha = await Produto.count({ where: { cod_servico: 8 } });
+    const barbaSobrancelha = await Produto.count({ where: { cod_servico: 9 } });
+
+    const arrayServicos = [
+      { nome: "Cabelo", qtd: cabelo },
+      { nome: "Barba", qtd: barba },
+      { nome: "Sobrancelhas", qtd: sobrancelha },
+      { nome: "Limpeza", qtd: limpeza },
+      { nome: "Nevou", qtd: nevou },
+      { nome: "Depilação", qtd: depilacao },
+      { nome: "Cabelo + Barba", qtd: cabeloBarba },
+      { nome: "Cabelo + Sobrancelha", qtd: cabeloSobrancelha },
+      { nome: "Barba + Sobrancelha", qtd: barbaSobrancelha },
+    ];
+
+    //
+
+
+
+
+//RECOMPENSAS
+
+
 
 
     //Dados sobre recompensas
     const quantidadeRecompensaGerada = await Recompensas.count()
-    console.log('Quantidade de recompensas geradas: ', quantidadeRecompensaGerada);
 
     //Quantidade de serviços não utilizados
     const servicosIndividuaisNaoUtilizados = await Produto.findAll({
@@ -59,11 +86,8 @@ class RelatorioGeralController {
 
     const quantidadeServiçosIndividuaisNaoUtilizados = servicosIndividuaisNaoUtilizados.length;
     const quantidadeKitServicoNaoUtilizados = kitServicosNaoUtilizados.length;
-    console.log('Quantidade Serviços individuais não utilizados: ', quantidadeServiçosIndividuaisNaoUtilizados)
-    console.log('Quantidade de kits de serviços não utilizados: ', quantidadeKitServicoNaoUtilizados)
 
-
-    res.render('relatorioGeral', { servicosIndividual });
+    res.render('relatorioGeral', { quantidadeVendasServicosIndividuais, quantidadeVendasKitsServicos, arrayServicos, quantidadeRecompensaGerada, quantidadeServiçosIndividuaisNaoUtilizados, quantidadeKitServicoNaoUtilizados });
   }
 
 

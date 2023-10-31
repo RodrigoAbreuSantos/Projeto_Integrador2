@@ -63,40 +63,32 @@ class RelatorioController {
         if (campo.flag) {
           servicosRealizados.push({
             servico: campo.Servico.desc,
-            dataCompra: new Date(campo.created_at).toLocaleDateString(),
+            dataCompra: new Date(campo.updated_at).toLocaleDateString(),
           })
         }
       });
 
       //Recompensas
+      const recompensaAdquirida = []
+      const recompensaRealizada = []
+      
       recompensaServicos.forEach((campo) => {
         if (!campo.flag || campo.flag){
-          const dataUtilizacao = new Date(campo.created_at);
-          const dia = dataUtilizacao.getDate();
-          const mes = dataUtilizacao.getMonth() + 1;
-          const ano = dataUtilizacao.getFullYear();
-          const hora = dataUtilizacao.getHours();
-          const minutos = dataUtilizacao.getMinutes();
-          const segundos = dataUtilizacao.getSeconds();
+          recompensaAdquirida.push({
+            recompensa: campo.desc,
+            dataCompra: new Date(campo.created_at).toLocaleDateString(),
+          })
 
-          console.log('Data e Hora de utilização: ', `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`);
-          console.log('Recompensa Adquirido', campo.desc);
         }
         if (campo.flag){
-          const dataUtilizacao = new Date(campo.updated_at);
-          const dia = dataUtilizacao.getDate();
-          const mes = dataUtilizacao.getMonth() + 1;
-          const ano = dataUtilizacao.getFullYear();
-          const hora = dataUtilizacao.getHours();
-          const minutos = dataUtilizacao.getMinutes();
-          const segundos = dataUtilizacao.getSeconds();
-
-          console.log('Data e Hora de utilização: ', `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`);
-          console.log('Recompensa Utilizada', campo.desc);
+          recompensaRealizada.push({
+            recompensa: campo.desc,
+            dataCompra: new Date(campo.created_at).toLocaleDateString(),
+          })
         }
       })
 
-      return res.render('relatorio', { hit: 'Usuario Logado com Sucesso', servicosAdquiridos, kitsAdquiridos, servicosRealizados });
+      return res.render('relatorio', { hit: 'Usuario Logado com Sucesso', servicosAdquiridos, kitsAdquiridos, servicosRealizados, recompensaAdquirida, recompensaRealizada });
 
 
     }catch(erro){

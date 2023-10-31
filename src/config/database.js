@@ -15,7 +15,8 @@ module.exports = {
     updatedAt: 'updated_at' //vai falar quando o registro foi atualizado na tabela
   },
   dialectOptions: {
-    timezone: 'America/Sao_Paulo'
+    timezone: 'America/Sao_Paulo',
+    connectTimeout: 30000, // Aumente esse valor conforme necessário
   },
   timezone: 'America/Sao_Paulo'
 }

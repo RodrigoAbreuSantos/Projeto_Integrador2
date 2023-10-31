@@ -2,19 +2,11 @@ import Cliente from '../models/Cliente'
 
 class HomeController {
 
-  //METODO QUE LEVA PARA A ROTA INICAL
-  inicio(req, res){ //aqui que vai ficar a requisição e a resposta
-    res.render('inicio');
-
-  }
-
   index(req, res, next){ //aqui que vai ficar a requisição e a resposta
     res.render('index');
   }
 
-  teste(req, res){
-    res.send(req.body);
-  }
+
 
   //METODO QUE POR ENQUANTO ESTA CRIANDO UM USUARIO NO BANCO DE DADOS PEGANDO OS DADOS DO FORM GERARCARD E LEVANDO PARA A ROTA HOME
 

@@ -5,10 +5,8 @@ const router = new Router();
 
 
 //Rota Inicial
-router.get('/', homeController.inicio) //ele esta jogando as funções do controller diretamente aqui, elas que recebem a requisição do usario e enciam uma resposta, dependendo do metodo, se for get pega a requisição do usuario se for post manda uma resposta
-router.get('/index', homeController.index)
+router.get('/', homeController.index)
 
-router.post('/', homeController.teste)
 
 export default router; //aqui que vai ficar as rotas
 
